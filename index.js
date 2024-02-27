@@ -1,10 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const port = 8080;
-//app.set("view engine", "ejs");
+
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 let jsonData;
 
@@ -17,18 +19,20 @@ try {
 app.get("/", (req, res) => {
   res.render("login.ejs");
 });
+app.get("/home", (req, res) => {
+  res.render("homepage.ejs", { textsearch: "" });
+});
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  //console.log(typeof email, typeof password);
-  console.log(jsonData);
+
   const user = jsonData.find(
     (user) => user.email_id === email && user.password === password
   );
-  //console.log(user);
+
   if (user) {
     res.cookie("useremail", email);
-    res.render("homepage.ejs");
+    res.render("homepage.ejs", { textsearch: "Your search will appear here." });
   } else {
     res.send("Invalid email or password");
   }
@@ -36,25 +40,30 @@ app.post("/login", (req, res) => {
 
 app.post("/submitText", (req, res) => {
   const subText = req.body.subText;
-  res.cookie("submittedText", subText);
-  //res.render("/homepage.ejs");
-  console.log("text submitted");
+
+  res.cookie("textMessage", subText);
+  res.redirect("/home");
 });
 
 app.get("/search", (req, res) => {
   const searchText = req.query.searchText;
-  const textsearch = req.cookies.submittedText;
-  console.log(searchText);
-  res.render("homepage.ejs", { textsearch: textsearch });
+
+  const textsearch = req.cookies.textMessage;
+
+  if (searchText === textsearch) {
+    res.render("homepage.ejs", { textsearch: textsearch });
+  } else {
+    res.json({ message: "Try search again" });
+  }
 });
 app.post("/clearCookie", (req, res) => {
   res.clearCookie("submittedText");
-  res.redirect("/");
+  res.render("homepage.ejs", { textsearch: "All cookie cleared." });
 });
 
 app.post("/logout", (req, res) => {
   res.clearCookie("useremail");
-  res.clearCookie("submittedText");
+  res.clearCookie("textMessage");
   res.redirect("/");
 });
 

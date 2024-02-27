@@ -6,7 +6,7 @@
     <title>Home page</title>
   </head>
   <body>
-    <form class="home" action="/submitText" method="POST">
+    <form action="/submitText" method="POST">
       <div class="home-container">
         <h4>Submit text message</h4>
         <input type="text" name="subText" placeholder="submit Text" />
@@ -22,8 +22,7 @@
     </form>
     <form action="/clearCookie" method="POST">
       <div class="show_search_container">
-        <!-- <h4></h4> -->
-        <input type="text" name="searchText" id="showtext" />
+        <p><%= textsearch %></p>
       </div>
       <button type="submit">Clear all SUBMIT3</button>
     </form>
