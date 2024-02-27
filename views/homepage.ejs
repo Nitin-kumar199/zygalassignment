@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home page</title>
+  </head>
+  <body>
+    <form class="home" action="/submitText" method="POST">
+      <div class="home-container">
+        <h4>Submit text message</h4>
+        <input type="text" name="subText" placeholder="submit Text" />
+      </div>
+      <button type="submit">SUBMIT1</button>
+    </form>
+    <form action="/search" method="GET">
+      <div class="search_container">
+        <h4>Search text message</h4>
+        <input type="text" name="searchText" placeholder="search Text" />
+      </div>
+      <button type="submit">SUBMIT2</button>
+    </form>
+    <form action="/clearCookie" method="POST">
+      <div class="show_search_container">
+        <!-- <h4></h4> -->
+        <input type="text" name="searchText" id="showtext" />
+      </div>
+      <button type="submit">Clear all SUBMIT3</button>
+    </form>
+    <form action="/logout" method="POST">
+      <button type="submit">Logout</button>
+    </form>
+  </body>
+</html>
